@@ -62,15 +62,21 @@ class CountingElements
 
         return 1;
     }
-
     public int[] MaxCounters(int N, int[] A)
     {
         int[] counters = new int[N];
         int maxCounter = 0;
+        int lastMaxCounter = 0;
+
         foreach (int value in A)
         {
             if (1 <= value && value <= N)
             {
+                if (counters[value - 1] < lastMaxCounter)
+                {
+                    counters[value - 1] = lastMaxCounter;
+                }
+
                 counters[value - 1]++;
 
                 if (counters[value - 1] > maxCounter)
@@ -80,11 +86,15 @@ class CountingElements
             }
             else if (value == N + 1)
             {
-                maxCounter = counters.Max();
-                for (int i = 0; i < N; i++)
-                {
-                    counters[i] = maxCounter;
-                }
+                lastMaxCounter = maxCounter;
+            }
+        }
+
+        for (int i = 0; i < N; i++)
+        {
+            if (counters[i] < lastMaxCounter)
+            {
+                counters[i] = lastMaxCounter;
             }
         }
 

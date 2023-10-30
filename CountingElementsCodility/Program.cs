@@ -1,4 +1,6 @@
-﻿CountingElements test = new CountingElements();
+﻿using System.Threading.Channels;
+
+CountingElements test = new CountingElements();
 
 int[] arr = { 1, 3, 1, 4, 2, 3, 5, 4 };
 var result = test.FrogRiverOne(5, arr);
@@ -15,6 +17,13 @@ foreach (var item in result3)
 {
     Console.Write(item);
 }
+
+int[] arr4 = { 1, 2, 3 };
+int[] arr5 = { -1, -3 };
+var result4 = test.MissingInteger(arr4);
+Console.WriteLine(result4);
+var result5 = test.MissingInteger(arr5);
+Console.WriteLine(result5);
 
 class CountingElements
 {
@@ -62,6 +71,7 @@ class CountingElements
 
         return 1;
     }
+
     public int[] MaxCounters(int N, int[] A)
     {
         int[] counters = new int[N];
@@ -99,5 +109,22 @@ class CountingElements
         }
 
         return counters;
+    }
+
+    public int MissingInteger(int[] A)
+    {
+        HashSet<int> missingInt = new HashSet<int>();
+
+        for (int i = 1; i <= A.Length + 1; i++)
+        {
+            missingInt.Add(i);
+        }
+
+        for (int i = 0; i < A.Length; i++)
+        {
+            missingInt.Remove(A[i]);
+        }
+
+        return missingInt.Count > 0 ? missingInt.First() : 0;
     }
 }
